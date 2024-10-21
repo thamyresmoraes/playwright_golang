@@ -1,0 +1,47 @@
+name: Playwright Go CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout do código
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 2: Instalar o Go
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.20'
+
+      # Step 3: Instalar as dependências
+      - name: Install dependencies
+        run: |
+          go mod download
+
+      # Step 4: Instalar o Playwright
+      - name: Install Playwright dependencies
+        run: |
+          sudo npx playwright install-deps
+
+      # Step 5: Instalar o Playwright-Go
+      - name: Install Playwright
+        run: |
+          sudo npx playwright install
+
+      # Step 6: Definir variável de ambiente para a chave da API (se necessário)
+      - name: Set environment variable
+        run: echo "ALPHA_VANTAGE_API_KEY=${{ secrets.ALPHA_VANTAGE_API_KEY }}" >> $GITHUB_ENV
+
+      # Step 7: Rodar os testes
+      - name: Run Tests
+        run: go test ./tests/...

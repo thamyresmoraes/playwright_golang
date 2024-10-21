@@ -1,0 +1,52 @@
+Feature: Testar funcionalidades da API Alpha Vantage
+  Como um desenvolvedor
+  Eu quero testar as diferentes funcionalidades da API Alpha Vantage
+  Para garantir que os dados retornados são válidos e dentro do esperado.
+
+  Background:
+    Given que eu tenho uma chave da API válida
+
+  Scenario Outline: Verificar dados de uma ação intraday
+    Given eu envio uma requisição para a API Alpha Vantage para o símbolo "<symbol>" com intervalo de "<interval>"
+    When a resposta é recebida
+    Then o status da resposta deve ser 200
+    And o campo "Meta Data" deve conter as informações corretas para "<symbol>"
+    And o campo "Time Series (<interval>)" deve conter os preços de abertura, fechamento, máximo e mínimo.
+
+    Examples:
+      | symbol | interval |
+      | IBM    | 5min     |
+      | AAPL   | 15min    |
+      | MSFT   | 1min     |
+
+  Scenario Outline: Verificar taxa de câmbio entre duas moedas
+    Given eu envio uma requisição para a taxa de câmbio entre "<from_currency>" e "<to_currency>"
+    When a resposta é recebida
+    Then o status da resposta deve ser 200
+    And o campo "Realtime Currency Exchange Rate" deve conter as taxas de câmbio corretas
+    And a moeda de origem deve ser "<from_currency>"
+    And a moeda de destino deve ser "<to_currency>".
+
+    Examples:
+      | from_currency | to_currency |
+      | USD           | EUR         |
+      | GBP           | JPY         |
+      | CAD           | AUD         |
+
+  Scenario Outline: Testar endpoint de ativos do mercado financeiro
+    Given eu envio uma requisição para o endpoint "<endpoint>"
+    When a resposta é recebida
+    Then o status da resposta deve ser 200
+    And os dados retornados devem conter informações financeiras relevantes.
+
+    Examples:
+      | endpoint                 |
+      | /query?function=TIME_SERIES_INTRADAY |
+      | /query?function=CURRENCY_EXCHANGE_RATE |
+      | /query?function=GLOBAL_QUOTE |
+
+  Scenario: Testar endpoint inválido
+    Given eu envio uma requisição para um endpoint inválido da API Alpha Vantage
+    When a resposta é recebida
+    Then o status da resposta deve ser 404
+    And a resposta deve indicar que o recurso não foi encontrado.
