@@ -36,10 +36,6 @@ func makeRequest(t *testing.T, endpoint string) map[string]interface{} {
 	err = json.Unmarshal([]byte(responseText), &body)
 	require.NoError(t, err, "Failed to parse JSON response")
 
-	if errorMessage, exists := body["Error Message"]; exists {
-		t.Fatalf("API Error: %s", errorMessage)
-	}
-
 	return body
 }
 
@@ -86,7 +82,9 @@ func TestInvalidEndpoint(t *testing.T) {
 	endpoint := "function=INVALID_ENDPOINT"
 	body := makeRequest(t, endpoint)
 
-	require.Equal(t, "This API function (INVALID_ENDPOINT) does not exist.", body["Error Message"], "Expected error message for invalid endpoint")
+	errorMessage, ok := body["Error Message"].(string)
+	require.True(t, ok, "Expected error message in the response")
+	require.Equal(t, "This API function (INVALID_ENDPOINT) does not exist.", errorMessage, "Expected error message for invalid endpoint")
 }
 
 // Testa a cotação global de uma ação
