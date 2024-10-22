@@ -13,35 +13,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout do código
-      - name: Checkout repository
+      # 🛠️ Step 1: Checkout do código
+      - name: 🛠️ Checkout repository
         uses: actions/checkout@v2
 
-      # Step 2: Instalar o Go
-      - name: Setup Go
+      # 💻 Step 2: Instalar o Go e usar cache para otimizar
+      - name: 💻 Setup Go
         uses: actions/setup-go@v2
         with:
           go-version: '1.21'
+        id: go
 
-      # Step 3: Instalar as dependências
-      - name: Install dependencies
-        run: |
-          go mod download
+      - name: 📦 Cache Go modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: go-mod-${{ runner.os }}-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            go-mod-${{ runner.os }}-
 
-      # Step 4: Instalar o Playwright
-      - name: Install Playwright dependencies
-        run: |
-          sudo npx playwright install-deps
+      # 📝 Step 3: Instalar as dependências
+      - name: 📝 Install dependencies
+        run: go mod download
 
-      # Step 5: Instalar o Playwright-Go
-      - name: Install Playwright
-        run: |
-          sudo npx playwright install
+      # 💡 Step 4: Instalar o Playwright e usar cache
+      - name: 📦 Cache Playwright dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-deps-${{ runner.os }}
 
-      # Step 6: Definir variável de ambiente para a chave da API (se necessário)
-      - name: Set environment variable
+      - name: 💡 Install Playwright dependencies
+        run: sudo npx playwright install-deps && sudo npx playwright install
+
+      # 🔧 Step 5: Definir variável de ambiente para a chave da API (se necessário)
+      - name: 🔧 Set environment variable
         run: echo "ALPHA_VANTAGE_API_KEY=${{ secrets.ALPHA_VANTAGE_API_KEY }}" >> $GITHUB_ENV
 
-      # Step 7: Rodar os testes
-      - name: Run Tests
+      # 🏃 Step 6: Rodar os testes
+      - name: 🏃 Run Tests
         run: go test ./tests/...
