@@ -15,17 +15,17 @@ jobs:
     steps:
       # 🛠️ Step 1: Checkout do código
       - name: 🛠️ Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # 💻 Step 2: Instalar o Go e usar cache para otimizar
       - name: 💻 Setup Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v4
         with:
           go-version: '1.21'
         id: go
 
       - name: 📦 Cache Go modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cache/go-build
@@ -42,6 +42,11 @@ jobs:
       - name: 🔧 Set environment variable
         run: echo "ALPHA_VANTAGE_API_KEY=${{ secrets.ALPHA_VANTAGE_API_KEY }}" >> $GITHUB_ENV
 
+      # 💡 Step 4.1: Instalar Playwright latest
+      - name: 💡 Install Playwright latest
+        run: npx playwright install
+
+      
       # 🏃 Step 5: Rodar os testes
       - name: 🏃 Run Tests
         env:
