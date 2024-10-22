@@ -43,8 +43,8 @@ jobs:
         run: echo "ALPHA_VANTAGE_API_KEY=${{ secrets.ALPHA_VANTAGE_API_KEY }}" >> $GITHUB_ENV
 
       # 💡 Step 4.1: Instalar Playwright latest
-      - name: 💡 Install Playwright latest
-        run: npx playwright install
+      - name: 💡 Install Playwright v1.47.2
+        run: npx playwright install v1.47.2
 
       
       # 🏃 Step 5: Rodar os testes
