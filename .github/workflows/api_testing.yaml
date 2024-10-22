@@ -46,7 +46,9 @@ jobs:
           key: playwright-deps-${{ runner.os }}
 
       - name: 💡 Install Playwright dependencies
-        run: sudo npx playwright install-deps && sudo npx playwright install
+        run: |
+          sudo npx playwright install-deps
+          sudo npx playwright install chromium
 
       # 🔧 Step 5: Definir variável de ambiente para a chave da API (se necessário)
       - name: 🔧 Set environment variable
