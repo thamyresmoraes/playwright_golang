@@ -19,9 +19,6 @@ func makeRequest(t *testing.T, endpoint string) map[string]interface{} {
 		t.Fatal("ALPHA_VANTAGE_API_KEY não definida")
 	}
 
-	// Apenas para debug
-	fmt.Printf("Testing endpoint: https://www.alphavantage.co/query?%s&apikey=%s\n", endpoint)
-
 	pm, err := playwrightsetup.NewPlaywrightManager()
 	require.NoError(t, err, "Failed to start Playwright")
 	defer pm.Close()
