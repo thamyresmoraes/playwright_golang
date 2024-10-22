@@ -38,6 +38,11 @@ jobs:
       - name: 📝 Install dependencies
         run: go mod tidy && go mod download
 
+      # 🔨 Step 4: Build do projeto
+      - name: 🔨 Build project
+        run: go build ./...
+        run: go mod tidy && go mod download
+
       # 🔧 Step 4: Definir variável de ambiente para a chave da API (se necessário)
       - name: 🔧 Set environment variable
         run: echo "ALPHA_VANTAGE_API_KEY=${{ secrets.ALPHA_VANTAGE_API_KEY }}" >> $GITHUB_ENV
