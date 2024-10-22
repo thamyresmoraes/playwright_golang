@@ -48,12 +48,12 @@ jobs:
       - name: 💡 Install Playwright dependencies
         run: |
           npx playwright install-deps
-          npx playwright install chromium@v1.47.2
+          npx playwright install chromium@latest
 
       # 🛠️ Step 5: Instalar drivers e garantir instalação completa do Playwright
       - name: 🛠️ Install Playwright Drivers
         run: |
-          npx playwright install --with-deps chromium@v1.47.2
+          npx playwright install --with-deps chromium@latest
 
       # 🔧 Step 6: Definir variável de ambiente para a chave da API (se necessário)
       - name: 🔧 Set environment variable
