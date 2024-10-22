@@ -27,14 +27,13 @@ jobs:
       - name: 🔧 Set environment variable
         run: echo "ALPHA_VANTAGE_API_KEY=${{ secrets.ALPHA_VANTAGE_API_KEY }}" >> $GITHUB_ENV
 
-       # 💡 Step 4: Instalar Playwright e dependências
-      - name: 💡 Install Playwright and dependencies
-        run: playwright install --with-deps
-
-      # 📦 Step 5: Instalar o Playwright Go
+      # 📦 Step 4: Instalar o Playwright Go
       - name: 📦 Install Playwright Go
         run: go install github.com/playwright-community/playwright-go/cmd/playwright@latest
 
+      # 💡 Step 5: Instalar Playwright e dependências
+      - name: 💡 Install Playwright and dependencies
+        run: playwright install --with-deps
 
       # 🏃 Step 6: Rodar os testes
       - name: 🏃 Run Tests
