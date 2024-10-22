@@ -2,7 +2,8 @@
 # Projeto Playwright Golang - Testes com API Alpha Vantage
 
 
-![Run Test](https://github.com/OWNER/REPOSITORY/actions/workflows/api_testing.yaml/badge.svg)
+[![Tests](https://github.com/thamyresmoraes/playwright_golang/actions/workflows/api_testing.yaml/badge.svg)](https://github.com/thamyresmoraes/playwright_golang/actions/workflows/api_testing.yaml)
+
 
 
 Este projeto utiliza a biblioteca [playwright-go](https://github.com/playwright-community/playwright-go) para realizar testes em APIs, especificamente na [Alpha Vantage API](https://www.alphavantage.co/documentation/).
