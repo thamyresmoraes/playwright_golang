@@ -17,53 +17,25 @@ jobs:
       - name: 🛠️ Checkout repository
         uses: actions/checkout@v4
 
-      # 💻 Step 2: Instalar o Go e usar cache para otimizar
+      # 💻 Step 2: Instalar o Go
       - name: 💻 Setup Go
         uses: actions/setup-go@v4
         with:
           go-version: '1.21'
-        id: go
 
-      - name: 📦 Cache Go modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/go-build
-            ~/go/pkg/mod
-          key: go-mod-${{ runner.os }}-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            go-mod-${{ runner.os }}-
-
-      # 📝 Step 3: Instalar as dependências
-      - name: 📝 Install dependencies
-        run: go mod tidy && go mod download
-
-      # 🔨 Step 4: Build do projeto
-      - name: 🔨 Build project
-        run: go build ./...
-        run: go mod tidy && go mod download
-
-      # 🔧 Step 4: Definir variável de ambiente para a chave da API (se necessário)
+      # 🔧 Step 3: Definir variável de ambiente para a chave da API
       - name: 🔧 Set environment variable
         run: echo "ALPHA_VANTAGE_API_KEY=${{ secrets.ALPHA_VANTAGE_API_KEY }}" >> $GITHUB_ENV
 
-      # 💡 Step 4.1: Instalar Playwright latest
-      - name: 🌐 Install Browser Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libnss3 libxss1 libasound2
+       # 💡 Step 4: Instalar Playwright e dependências
+      - name: 💡 Install Playwright and dependencies
+        run: playwright install --with-deps
 
-      - name: 💡 Install Playwright dependencies
-        run: npx playwright install-deps
+      # 📦 Step 5: Instalar o Playwright Go
+      - name: 📦 Install Playwright Go
+        run: go install github.com/playwright-community/playwright-go/cmd/playwright@latest
 
-      - name: 💡 Install Playwright v1.47.2
-        run: |
-          npm install playwright@1.47.2
-          npx playwright install
 
-      
-      # 🏃 Step 5: Rodar os testes
+      # 🏃 Step 6: Rodar os testes
       - name: 🏃 Run Tests
-        env:
-          PWDEBUG: 1
         run: go test -v ./tests/...
