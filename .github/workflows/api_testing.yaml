@@ -50,11 +50,17 @@ jobs:
           npx playwright install-deps
           npx playwright install chromium
 
-      # 🔧 Step 5: Definir variável de ambiente para a chave da API (se necessário)
+      # 🛠️ Step 5: Instalar drivers e garantir instalação completa do Playwright
+      - name: 🛠️ Install Playwright Drivers
+        run: |
+          npx playwright install --with-deps
+          npx playwright install chromium
+
+      # 🔧 Step 6: Definir variável de ambiente para a chave da API (se necessário)
       - name: 🔧 Set environment variable
         run: echo "ALPHA_VANTAGE_API_KEY=${{ secrets.ALPHA_VANTAGE_API_KEY }}" >> $GITHUB_ENV
 
-      # 🏃 Step 6: Rodar os testes
+      # 🏃 Step 7: Rodar os testes
       - name: 🏃 Run Tests
         env:
           PWDEBUG: 1
