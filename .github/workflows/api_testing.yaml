@@ -43,6 +43,14 @@ jobs:
         run: echo "ALPHA_VANTAGE_API_KEY=${{ secrets.ALPHA_VANTAGE_API_KEY }}" >> $GITHUB_ENV
 
       # 💡 Step 4.1: Instalar Playwright latest
+      - name: 🌐 Install Browser Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libxss1 libasound2
+
+      - name: 💡 Install Playwright dependencies
+        run: npx playwright install-deps
+
       - name: 💡 Install Playwright v1.47.2
         run: |
           npm install playwright@1.47.2
