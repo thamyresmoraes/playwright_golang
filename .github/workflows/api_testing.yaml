@@ -38,28 +38,11 @@ jobs:
       - name: 📝 Install dependencies
         run: go mod tidy && go mod download
 
-      # 💡 Step 4: Instalar o Playwright e usar cache
-      - name: 📦 Cache Playwright dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-deps-${{ runner.os }}
-
-      - name: 💡 Install Playwright dependencies
-        run: |
-          npx playwright install-deps
-          npx playwright install chrome
-
-      # 🛠️ Step 5: Instalar drivers e garantir instalação completa do Playwright
-      - name: 🛠️ Install Playwright Drivers
-        run: |
-          npx playwright install --with-deps chrome
-
-      # 🔧 Step 6: Definir variável de ambiente para a chave da API (se necessário)
+      # 🔧 Step 4: Definir variável de ambiente para a chave da API (se necessário)
       - name: 🔧 Set environment variable
         run: echo "ALPHA_VANTAGE_API_KEY=${{ secrets.ALPHA_VANTAGE_API_KEY }}" >> $GITHUB_ENV
 
-      # 🏃 Step 7: Rodar os testes
+      # 🏃 Step 5: Rodar os testes
       - name: 🏃 Run Tests
         env:
           PWDEBUG: 1
