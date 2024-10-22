@@ -36,7 +36,7 @@ jobs:
 
       # 📝 Step 3: Instalar as dependências
       - name: 📝 Install dependencies
-        run: go mod download
+        run: go mod tidy && go mod download
 
       # 💡 Step 4: Instalar o Playwright e usar cache
       - name: 📦 Cache Playwright dependencies
@@ -47,8 +47,8 @@ jobs:
 
       - name: 💡 Install Playwright dependencies
         run: |
-          sudo npx playwright install-deps
-          sudo npx playwright install chromium
+          npx playwright install-deps
+          npx playwright install chromium
 
       # 🔧 Step 5: Definir variável de ambiente para a chave da API (se necessário)
       - name: 🔧 Set environment variable
@@ -56,4 +56,6 @@ jobs:
 
       # 🏃 Step 6: Rodar os testes
       - name: 🏃 Run Tests
-        run: go test ./tests/...
+        env:
+          PWDEBUG: 1
+        run: go test -v ./tests/...
