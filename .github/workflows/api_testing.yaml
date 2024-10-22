@@ -44,7 +44,9 @@ jobs:
 
       # 💡 Step 4.1: Instalar Playwright latest
       - name: 💡 Install Playwright v1.47.2
-        run: npx playwright install v1.47.2
+        run: |
+          npm install playwright@1.47.2
+          npx playwright install
 
       
       # 🏃 Step 5: Rodar os testes
